@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -22,7 +23,7 @@ namespace Main
     /// <summary>
     /// 身份证阅读器测试
     /// </summary>
-    public partial class IDReaderTestWindow : Window
+    public partial class IDReaderTestWindow
     {
         private int _iRetUsb = 0;
         private int _iRetCom = 0;
@@ -168,7 +169,11 @@ namespace Main
 
         private void btnOpenID_Click(object sender, RoutedEventArgs e)
         {
-            OpenDevice();
+            //OpenDevice();
+
+            DoubleAnimation opacity = new DoubleAnimation(1, new Duration(TimeSpan.FromSeconds(5)));
+            opacity.AutoReverse = true;
+            lblTip.BeginAnimation(Label.OpacityProperty, opacity);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
