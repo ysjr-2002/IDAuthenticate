@@ -1,0 +1,118 @@
+﻿<Window x:Class="Main.IDReaderTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Main"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="华视身份证阅读器测试"
+        Width="600"
+        Height="400"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="86" />
+            <Setter Property="Height" Value="27" />
+        </Style>
+    </Window.Resources>
+    <Grid Name="gdIDInfo" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!--  行一  -->
+        <StackPanel Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    Orientation="Horizontal">
+            <Label Content="串口:" />
+            <ComboBox Name="cmbPorts" Width="100" />
+            <Button Margin="5,0"
+                    Click="btnOpenID_Click"
+                    Content="打开" />
+
+            <Button Click="Button_Click" Content="赋值" />
+        </StackPanel>
+
+
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Content="姓名：" />
+        <Label Grid.Row="1"
+               Grid.Column="1"
+               Content="{Binding Name}" />
+
+        <!--  图像  -->
+        <Image Name="imgPhoto"
+               Grid.Row="1"
+               Grid.RowSpan="8"
+               Grid.Column="2"
+               Source="{Binding Photo}" />
+
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Content="性别：" />
+        <Label Grid.Row="2"
+               Grid.Column="1"
+               Content="{Binding Sex}" />
+
+        <Label Grid.Row="3"
+               Grid.Column="0"
+               Content="民族：" />
+        <Label Grid.Row="3"
+               Grid.Column="1"
+               Content="{Binding Nation}" />
+
+        <Label Grid.Row="4"
+               Grid.Column="0"
+               Content="号码：" />
+        <Label Grid.Row="4"
+               Grid.Column="1"
+               Content="{Binding Number}" />
+
+        <Label Grid.Row="5"
+               Grid.Column="0"
+               Content="生日：" />
+        <Label Grid.Row="5"
+               Grid.Column="1"
+               Content="{Binding Birthday}" />
+
+        <Label Grid.Row="6"
+               Grid.Column="0"
+               Content="住址：" />
+        <Label Grid.Row="6"
+               Grid.Column="1"
+               Content="{Binding Address}" />
+
+        <Label Grid.Row="7"
+               Grid.Column="0"
+               Content="有效期：" />
+        <StackPanel Grid.Row="7"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            <Label Content="{Binding StartDate}" />
+            <Label Content="-" />
+            <Label Content="{Binding EndDate}" />
+        </StackPanel>
+
+        <Label Grid.Row="8"
+               Grid.Column="0"
+               Content="签发机关：" />
+        <Label Grid.Row="8"
+               Grid.Column="1"
+               Content="{Binding Department}" />
+
+    </Grid>
+</Window>

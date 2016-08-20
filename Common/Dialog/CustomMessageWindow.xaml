@@ -1,0 +1,136 @@
+﻿<Window x:Class="Common.Dialog.CustomMessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Common.Dialog"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Width="320"
+        Height="150"
+        Background="#F3F3F5"
+        FontFamily="微软雅黑"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Hz.Products.UIThemes;component/TPButton/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>-->
+
+        <SolidColorBrush x:Key="WindowTitleColorBrush" Color="#3C4144" />
+        <SolidColorBrush x:Key="DialogForeground" Color="Black" />
+
+        <Style x:Key="tpButton" TargetType="Button">
+            <Setter Property="Background" Value="#33383C" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Width" Value="86" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Bd"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Bd" Property="Background" Value="#66696E" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!--  行一 标题  -->
+        <Grid Grid.Row="0"
+              Background="{StaticResource WindowTitleColorBrush}"
+              MouseLeftButtonDown="WindowTitle_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"
+                   Margin="5,0,0,0"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding Caption}"
+                   FontSize="14"
+                   Foreground="White" />
+            <!--<thems:ImageButtonEx Grid.Column="1"
+                                 Width="32"
+                                 Height="32"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Center"
+                                 Click="btnClose_Click"
+                                 Focusable="False"
+                                 HoverImage="/Hz.Products.UIThemes;component/Images/close_hover.png"
+                                 NormalImage="/Hz.Products.UIThemes;component/Images/close_normal.png" />-->
+        </Grid>
+
+        <!--  行二 信息区  -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0"
+                   Width="36"
+                   Margin="0,5,0,5"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Source="{Binding DialogImage}" />
+            <TextBlock Grid.Column="1"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       Foreground="{StaticResource DialogForeground}"
+                       Text="{Binding DialogInformation}"
+                       TextWrapping="Wrap"
+                       ToolTip="{Binding Text,
+                                         RelativeSource={RelativeSource Self}}" />
+        </Grid>
+
+        <!--  行三 按钮区  -->
+        <StackPanel Name="spInfo"
+                    Grid.Row="2"
+                    Margin="0,0,0,5"
+                    Visibility="Visible">
+            <Button Name="btnOK"
+                    Click="btnOK_Click"
+                    Content="确定"
+                    Style="{StaticResource tpButton}" />
+        </StackPanel>
+        <StackPanel Name="spQuestion"
+                    Grid.Row="2"
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+            <Button Name="btnYes"
+                    Click="btnYes_Click"
+                    Content="是(_Y)"
+                    Style="{StaticResource tpButton}" />
+
+            <Button Name="btnNo"
+                    Margin="10,0,0,0"
+                    Click="btnNo_Click"
+                    Content="否(_N)"
+                    Style="{StaticResource tpButton}" />
+        </StackPanel>
+    </Grid>
+</Window>
