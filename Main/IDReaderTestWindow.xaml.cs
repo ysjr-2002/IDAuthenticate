@@ -54,10 +54,6 @@ namespace Main
 
         private void IDReaderTestWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var ports = SerialPort.GetPortNames();
-            cmbPorts.ItemsSource = ports;
-            cmbPorts.SelectedIndex = 0;
-
             _readTimer = new DispatcherTimer();
             _readTimer.Tick += _readTimer_Tick;
         }
@@ -94,8 +90,8 @@ namespace Main
                 byte[] birthday = new byte[30];
                 length = 16;
                 CVRSDK.GetPeopleBirthday(ref birthday[0], ref length);
-                byte[] address = new byte[30];
-                length = 70;
+                byte[] address = new byte[128];
+                length = 128;
                 CVRSDK.GetPeopleAddress(ref address[0], ref length);
                 byte[] validtermOfEnd = new byte[30];
                 length = 16;
@@ -112,14 +108,14 @@ namespace Main
 
                 IDCardInfo.Name = name.ToGB2312String();
                 IDCardInfo.Sex = sex.ToGB2312String();
-                IDCardInfo.Name = people.ToGB2312String();
+                IDCardInfo.Nation = people.ToGB2312String();
                 IDCardInfo.Number = number.ToGB2312String();
                 IDCardInfo.Address = address.ToGB2312String();
                 IDCardInfo.Birthday = birthday.ToGB2312String();
                 IDCardInfo.StartDate = validtermOfStart.ToGB2312String();
                 IDCardInfo.EndDate = validtermOfEnd.ToGB2312String();
                 IDCardInfo.Department = signdate.ToGB2312String();
-                IDCardInfo.Photo = Environment.CurrentDirectory + "zp.bmp";
+                imgPhoto.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\dll\\zp.bmp", UriKind.Absolute));
             }
             catch (Exception ex)
             {
@@ -137,6 +133,7 @@ namespace Main
                     _iRetUsb = CVRSDK.CVR_InitComm(iPort);
                     if (_iRetUsb == 1)
                     {
+                        Console.WriteLine("打开设备:" + iPort);
                         break;
                     }
                 }
@@ -153,7 +150,7 @@ namespace Main
                 }
                 if (_iRetUsb == 1 || _iRetCom == 1)
                 {
-                    _readTimer.Interval = new TimeSpan(0, 0, 0, 500);
+                    _readTimer.Interval = TimeSpan.FromMilliseconds(500);
                     _readTimer.Start();
                 }
                 else
@@ -169,7 +166,7 @@ namespace Main
 
         private void btnOpenID_Click(object sender, RoutedEventArgs e)
         {
-            //OpenDevice();
+            OpenDevice();
 
             DoubleAnimation opacity = new DoubleAnimation(1, new Duration(TimeSpan.FromSeconds(5)));
             opacity.AutoReverse = true;

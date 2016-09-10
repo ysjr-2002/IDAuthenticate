@@ -67,7 +67,6 @@
                     Grid.ColumnSpan="3"
                     Orientation="Horizontal">
             <Label Content="串口：" Style="{StaticResource left}" />
-            <ComboBox Name="cmbPorts" Width="100" />
             <Button Margin="5,0"
                     Click="btnOpenID_Click"
                     Content="打开" />
@@ -96,7 +95,7 @@
                Grid.Row="1"
                Grid.RowSpan="8"
                Grid.Column="2"
-               Source="{Binding Photo}" />
+                />
 
         <Path Grid.Row="2"
               Grid.ColumnSpan="3"
