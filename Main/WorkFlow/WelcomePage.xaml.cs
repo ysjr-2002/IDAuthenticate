@@ -1,5 +1,4 @@
-﻿using Main.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,24 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Main
+namespace Main.WorkFlow
 {
     /// <summary>
-    /// 主窗口
+    /// 欢迎页(欢迎信息)
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class WelcomePage : UserControl
     {
-        public MainWindow()
+        public WelcomePage()
         {
             InitializeComponent();
-
-            this.DataContext = MainViewModel.Instance;
-            this.Loaded += MainWindow_Loaded;
+            this.Loaded += WelcomePage_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void WelcomePage_Loaded(object sender, RoutedEventArgs e)
         {
-            MainViewModel.Instance.Init();
+            lblRow1.Content = "欢迎光临";
+            lblRow2.Content = "请刷身份证";
         }
     }
 }
