@@ -55,6 +55,8 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
@@ -68,6 +70,7 @@
                     Orientation="Horizontal">
             <Label Content="串口：" Style="{StaticResource left}" />
             <Button Margin="5,0"
+                    Name="btnOpen"
                     Click="btnOpenID_Click"
                     Content="打开" />
 
@@ -94,14 +97,13 @@
         <Image Name="imgPhoto"
                Grid.Row="1"
                Grid.RowSpan="8"
-               Grid.Column="2"
-                />
+               Grid.Column="2" />
 
         <Path Grid.Row="2"
               Grid.ColumnSpan="3"
               Stroke="Goldenrod">
             <Path.Data>
-                <LineGeometry StartPoint="0,0" EndPoint="2000,1" />
+                <LineGeometry StartPoint="0,0" EndPoint="300,1" />
             </Path.Data>
         </Path>
 
@@ -117,7 +119,7 @@
               Grid.ColumnSpan="3"
               Stroke="Goldenrod">
             <Path.Data>
-                <LineGeometry StartPoint="0,0" EndPoint="2000,1" />
+                <LineGeometry StartPoint="0,0" EndPoint="300,1" />
             </Path.Data>
         </Path>
 
@@ -136,7 +138,7 @@
               Grid.ColumnSpan="3"
               Stroke="Goldenrod">
             <Path.Data>
-                <LineGeometry StartPoint="0,0" EndPoint="2000,1" />
+                <LineGeometry StartPoint="0,0" EndPoint="300,1" />
             </Path.Data>
         </Path>
 
@@ -153,7 +155,7 @@
               Grid.ColumnSpan="3"
               Stroke="Goldenrod">
             <Path.Data>
-                <LineGeometry StartPoint="0,0" EndPoint="2000,1" />
+                <LineGeometry StartPoint="0,0" EndPoint="300,1" />
             </Path.Data>
         </Path>
 
@@ -230,5 +232,28 @@
             </Path.Data>
         </Path>
 
+        <StatusBar Grid.Row="19" Grid.ColumnSpan=" 3">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="1" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Text="状态栏" />
+            </StatusBarItem>
+
+            <Separator Grid.Column="1" />
+
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Text="" />
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </mah:MetroWindow>

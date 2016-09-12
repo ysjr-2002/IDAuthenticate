@@ -60,14 +60,21 @@ namespace Main
 
         private void _readTimer_Tick(object sender, EventArgs e)
         {
-            int authenticate = CVRSDK.CVR_Authenticate();
-            if (authenticate == 1)
+            try
             {
-                int readContent = CVRSDK.CVR_Read_Content(4);
-                if (readContent == 1)
+                int authenticate = CVRSDK.CVR_Authenticate();
+                if (authenticate == 1)
                 {
-                    FillData();
+                    int readContent = CVRSDK.CVR_Read_Content(4);
+                    if (readContent == 1)
+                    {
+                        FillData();
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
@@ -75,47 +82,68 @@ namespace Main
         {
             try
             {
+                //姓名
                 byte[] name = new byte[30];
                 int length = 30;
                 CVRSDK.GetPeopleName(ref name[0], ref length);
+
+                //号码
                 byte[] number = new byte[30];
                 length = 36;
                 CVRSDK.GetPeopleIDCode(ref number[0], ref length);
+
+                //民族
                 byte[] people = new byte[30];
                 length = 3;
                 CVRSDK.GetPeopleNation(ref people[0], ref length);
+
+                //有效起始日期
                 byte[] validtermOfStart = new byte[30];
                 length = 16;
                 CVRSDK.GetStartDate(ref validtermOfStart[0], ref length);
+
+                //生日
                 byte[] birthday = new byte[30];
                 length = 16;
                 CVRSDK.GetPeopleBirthday(ref birthday[0], ref length);
+
+                //住址
                 byte[] address = new byte[128];
                 length = 128;
                 CVRSDK.GetPeopleAddress(ref address[0], ref length);
+
+                //有效终止期
                 byte[] validtermOfEnd = new byte[30];
                 length = 16;
                 CVRSDK.GetEndDate(ref validtermOfEnd[0], ref length);
+
+                //签发机关
                 byte[] signdate = new byte[30];
                 length = 30;
                 CVRSDK.GetDepartment(ref signdate[0], ref length);
+
+                //性别
                 byte[] sex = new byte[30];
                 length = 3;
                 CVRSDK.GetPeopleSex(ref sex[0], ref length);
 
+                //安全模块
                 byte[] samid = new byte[32];
                 CVRSDK.CVR_GetSAMID(ref samid[0]);
 
-                IDCardInfo.Name = name.ToGB2312String();
-                IDCardInfo.Sex = sex.ToGB2312String();
-                IDCardInfo.Nation = people.ToGB2312String();
-                IDCardInfo.Number = number.ToGB2312String();
-                IDCardInfo.Address = address.ToGB2312String();
-                IDCardInfo.Birthday = birthday.ToGB2312String();
-                IDCardInfo.StartDate = validtermOfStart.ToGB2312String();
-                IDCardInfo.EndDate = validtermOfEnd.ToGB2312String();
-                IDCardInfo.Department = signdate.ToGB2312String();
-                imgPhoto.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\dll\\zp.bmp", UriKind.Absolute));
+                IDCardInfo.Name = name.ToGBString();
+                IDCardInfo.Sex = sex.ToGBString();
+                IDCardInfo.Nation = people.ToGBString();
+                IDCardInfo.Number = number.ToGBString();
+                IDCardInfo.Address = address.ToGBString();
+                IDCardInfo.Birthday = birthday.ToGBString();
+                IDCardInfo.StartDate = validtermOfStart.ToGBString();
+                IDCardInfo.EndDate = validtermOfEnd.ToGBString();
+                IDCardInfo.Department = signdate.ToGBString();
+
+                var zpPath = Environment.CurrentDirectory + "\\dll\\zp.bmp";
+                imgPhoto.Source = Funs.ToBitmapSource(zpPath);
+                System.IO.File.Delete(zpPath);
             }
             catch (Exception ex)
             {
@@ -152,6 +180,7 @@ namespace Main
                 {
                     _readTimer.Interval = TimeSpan.FromMilliseconds(500);
                     _readTimer.Start();
+                    btnOpen.IsEnabled = false;
                 }
                 else
                 {
@@ -160,7 +189,7 @@ namespace Main
             }
             catch (Exception ex)
             {
-                //CMessageBox.Show(ex.ToString());
+                CustomDialog.Show(ex.ToString());
             }
         }
 
@@ -171,6 +200,8 @@ namespace Main
             DoubleAnimation opacity = new DoubleAnimation(1, new Duration(TimeSpan.FromSeconds(5)));
             opacity.AutoReverse = true;
             lblTip.BeginAnimation(Label.OpacityProperty, opacity);
+
+            btnOpen.IsEnabled = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -67,5 +67,38 @@ namespace Common
             ports.Insert(0, "None");
             return ports;
         }
+
+
+        public static System.Windows.Media.Imaging.BitmapSource ToBitmapSource(string sFilePath)
+        {
+            try
+            {
+                using (System.IO.FileStream fs = new System.IO.FileStream(sFilePath,
+                System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                {
+                    byte[] buffer = new byte[fs.Length];
+                    fs.Read(buffer, 0, buffer.Length);
+                    fs.Close();
+                    fs.Dispose();
+
+                    System.Windows.Media.Imaging.BitmapImage bitmapImage =
+                        new System.Windows.Media.Imaging.BitmapImage();
+                    using (System.IO.MemoryStream ms = new System.IO.MemoryStream(buffer))
+                    {
+                        bitmapImage.BeginInit();
+                        bitmapImage.StreamSource = ms;
+                        bitmapImage.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                        bitmapImage.EndInit();
+                        bitmapImage.Freeze();
+                    }
+                    return bitmapImage;
+                }
+            }
+            catch
+            {
+                LogHelper.Info("读取图片失败：" + sFilePath);
+                return null;
+            }
+        }
     }
 }

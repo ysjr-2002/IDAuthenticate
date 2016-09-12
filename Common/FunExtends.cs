@@ -471,7 +471,7 @@ namespace Common
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        public static string ToGB2312String(this byte[] buffer)
+        public static string ToGBString(this byte[] buffer)
         {
             return buffer.BufferToString(Encoding.Default);
         }
