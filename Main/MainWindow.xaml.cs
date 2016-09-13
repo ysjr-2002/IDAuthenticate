@@ -18,6 +18,7 @@ namespace Main
 {
     /// <summary>
     /// 主窗口
+    /// 账号:aobidao abd123
     /// </summary>
     public partial class MainWindow : Window
     {
