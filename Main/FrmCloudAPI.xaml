@@ -22,5 +22,6 @@
         <Button Click="btnGetStatus_Click" Content="Get Status" />
 
         <Button Click="btnComapre_Click" Content="Compare" />
+        <Button Click="btnUnixDT_Click" Content="Unix DateTime" />
     </StackPanel>
 </Window>
