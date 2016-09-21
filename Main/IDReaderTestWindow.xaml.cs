@@ -143,7 +143,7 @@ namespace Main
 
                 var zpPath = Environment.CurrentDirectory + "\\dll\\zp.bmp";
                 imgPhoto.Source = Funs.ToBitmapSource(zpPath);
-                System.IO.File.Delete(zpPath);
+                //System.IO.File.Delete(zpPath);
             }
             catch (Exception ex)
             {
