@@ -60,19 +60,6 @@ namespace Main
             Console.WriteLine("耗时:" + sw.ElapsedMilliseconds);
 
             var headers = response.Headers;
-            //foreach (var key in headers.AllKeys)
-            //{
-            //    var val = headers[key];
-            //    Console.WriteLine(string.Format("key={0};value={1}", key, val));
-
-            //    if (key.Contains("Set-Cookie"))
-            //    {
-            //        cookie = val;
-            //        Console.WriteLine("break");
-            //        break;
-            //    }
-            //}
-
 
             cookie = headers["Set-Cookie"];
             Console.WriteLine("cookie:" + cookie);
@@ -114,29 +101,66 @@ namespace Main
 
             var url = string.Concat("https://60.205.107.219/api/compare", "");
 
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+            //HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
             //wr.ContentType = "application/x-www-form-urlencoded";
             //wr.Method = "Get";
             //wr.KeepAlive = true;
             //wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
             //request.UserAgent = "Koala Admin";
             //request.ContentLength = buffer.Length;
-
-            var requeststream = wr.GetRequestStream();
+            //var requeststream = wr.GetRequestStream();
             //requeststream.Write(buffer, 0, buffer.Length);
             //requeststream.Close();
+            //HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
+            //var stream = response.GetResponseStream();
+            //StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
+            //var json = sr.ReadToEnd();
+            //Console.WriteLine(json);
 
-            HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
+
+            string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
+            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+            wr.ContentType = "multipart/form-data; boundary=" + boundary;
+            wr.Method = "POST";
+            wr.KeepAlive = true;
+            wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
+
+            wr.Headers["cookie"] = cookie;
+
+            var fs = System.IO.File.Open(@"C:\Users\ysj\Desktop\Face\girl.jpg", FileMode.Open);
+            byte[] fileByte = new byte[fs.Length];
+
+            fs.Read(fileByte, 0, fileByte.Length);
+            fs.Close();
+
+          
+            Stream rs = wr.GetRequestStream();
+            //图像一
+            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+            string header = string.Format(headerTemplate, "image1", fileByte, "text/plain");//image/jpeg
+            byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+            rs.Write(headerbytes, 0, headerbytes.Length);
+            rs.Write(fileByte, 0, fileByte.Length);
+
+            rs.Write(boundarybytes, 0, boundarybytes.Length);
+
+            //图片二
+            headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+            header = string.Format(headerTemplate, "image2", fileByte, "text/plain");//image/jpeg
+            headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+            rs.Write(headerbytes, 0, headerbytes.Length);
+            rs.Write(fileByte, 0, fileByte.Length);
+
+            //byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+            //rs.Write(trailer, 0, trailer.Length);
+            //rs.Close();
+
+            var response = wr.GetResponse();
             var stream = response.GetResponseStream();
             StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
             var json = sr.ReadToEnd();
-            Console.WriteLine(json);
-
-            var cookies = response.Cookies;
-            foreach (Cookie cookie in cookies)
-            {
-                Console.WriteLine(cookie);
-            }
         }
 
         private void btnUnixDT_Click(object sender, RoutedEventArgs e)

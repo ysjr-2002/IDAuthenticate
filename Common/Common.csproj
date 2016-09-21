@@ -66,6 +66,7 @@
     <Compile Include="Dialog\CustomMessageWindow.xaml.cs">
       <DependentUpon>CustomMessageWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FuncTimeout.cs" />
     <Compile Include="FunExtends.cs" />
     <Compile Include="Funs.cs" />
     <Compile Include="IPCAPI.cs" />
