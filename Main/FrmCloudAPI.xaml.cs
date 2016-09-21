@@ -22,6 +22,8 @@ namespace Main
 {
     /// <summary>
     /// Interaction logic for FrmCloudAPI.xaml
+    /// http://topmanopensource.iteye.com/blog/1605238
+    /// http://www.cnblogs.com/liuyinjun/p/3980091.html
     /// </summary>
     public partial class FrmCloudAPI : Window
     {
@@ -96,30 +98,10 @@ namespace Main
 
         private void btnComapre_Click(object sender, RoutedEventArgs e)
         {
-            var data = "username=" + username + "&password=" + password;
-            var buffer = System.Text.Encoding.UTF8.GetBytes(data);
-
-            var url = string.Concat("https://60.205.107.219/api/compare", "");
-
-            //HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
-            //wr.ContentType = "application/x-www-form-urlencoded";
-            //wr.Method = "Get";
-            //wr.KeepAlive = true;
-            //wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            //request.UserAgent = "Koala Admin";
-            //request.ContentLength = buffer.Length;
-            //var requeststream = wr.GetRequestStream();
-            //requeststream.Write(buffer, 0, buffer.Length);
-            //requeststream.Close();
-            //HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
-            //var stream = response.GetResponseStream();
-            //StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
-            //var json = sr.ReadToEnd();
-            //Console.WriteLine(json);
-
+            var url = string.Concat(URL, "/api/compare");
 
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            //byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
             wr.ContentType = "multipart/form-data; boundary=" + boundary;
@@ -129,38 +111,103 @@ namespace Main
 
             wr.Headers["cookie"] = cookie;
 
-            var fs = System.IO.File.Open(@"C:\Users\ysj\Desktop\Face\girl.jpg", FileMode.Open);
-            byte[] fileByte = new byte[fs.Length];
+            FileStream fs = null;
 
-            fs.Read(fileByte, 0, fileByte.Length);
-            fs.Close();
+            String prefix = "--";
+            string end = "\r\n";
 
-          
+            StringBuilder sb = new StringBuilder();
+            sb.Append(prefix);
+            sb.Append(boundary);
+            sb.Append(end);
+
+            Stopwatch sw = Stopwatch.StartNew();
+
             Stream rs = wr.GetRequestStream();
             //图像一
-            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            string header = string.Format(headerTemplate, "image1", fileByte, "text/plain");//image/jpeg
-            byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
-            rs.Write(headerbytes, 0, headerbytes.Length);
-            rs.Write(fileByte, 0, fileByte.Length);
+            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"" + end;
+            string header = string.Format(headerTemplate, "image1", "face.jpg");
+            sb.Append(header);
+            sb.Append("Content-Type: application/octet-stream; charset=utf-8" + end);
+            sb.Append(end);
 
-            rs.Write(boundarybytes, 0, boundarybytes.Length);
+            var str = sb.ToString();
+            Console.WriteLine(str);
+            byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
+            rs.Write(headerbytes, 0, headerbytes.Length);
+
+            fs = System.IO.File.Open(@"d:\wyz1.jpg", FileMode.Open);
+            byte[] data = new byte[1024];
+            var len = 0;
+            while ((len = fs.Read(data, 0, data.Length)) > 0)
+            {
+                rs.Write(data, 0, len);
+            }
+            fs.Close();
+            Array.Clear(data, 0, data.Length);
+
+
+            /** 每个文件结束后有换行 **/
+            byte[] byteFileEnd = Encoding.UTF8.GetBytes(end);
+            rs.Write(byteFileEnd, 0, byteFileEnd.Length);
 
             //图片二
-            headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            header = string.Format(headerTemplate, "image2", fileByte, "text/plain");//image/jpeg
-            headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
-            rs.Write(headerbytes, 0, headerbytes.Length);
-            rs.Write(fileByte, 0, fileByte.Length);
+            sb.Clear();
 
-            //byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
-            //rs.Write(trailer, 0, trailer.Length);
-            //rs.Close();
+            sb.Append(prefix);
+            sb.Append(boundary);
+            sb.Append(end);
+
+            header = string.Format(headerTemplate, "image2", "abc.jpg");//image/jpeg
+
+            sb.Append(header);
+            sb.Append("Content-Type: application/octet-stream; charset=utf-8" + end);
+            sb.Append(end);
+
+            str = sb.ToString();
+            Console.WriteLine(str);
+            headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
+            rs.Write(headerbytes, 0, headerbytes.Length);
+
+            fs = System.IO.File.Open(@"d:\wyz2.jpg", FileMode.Open);
+            while ((len = fs.Read(data, 0, data.Length)) > 0)
+            {
+                rs.Write(data, 0, len);
+            }
+            fs.Close();
+
+            /** 每个文件结束后有换行 **/
+            rs.Write(byteFileEnd, 0, byteFileEnd.Length);
+
+            //文件结束标志
+            byte[] byte1 = Encoding.UTF8.GetBytes(prefix + boundary + prefix + end);
+            rs.Write(byte1, 0, byte1.Length);
+            rs.Close();
+
 
             var response = wr.GetResponse();
             var stream = response.GetResponseStream();
             StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
             var json = sr.ReadToEnd();
+
+            Console.WriteLine(json);
+
+            sw.Stop();
+            Console.WriteLine("耗时->" + sw.ElapsedMilliseconds);
+
+            JavaScriptSerializer serialze = new JavaScriptSerializer();
+            var result = serialze.Deserialize<JsonCompare>(json);
+
+            Console.WriteLine(result.data.score);
+
+            if (result.data.score > 80)
+            {
+                lblCompare.Content = "比对通过";
+            }
+            else
+            {
+                lblCompare.Content = "比对失败";
+            }
         }
 
         private void btnUnixDT_Click(object sender, RoutedEventArgs e)

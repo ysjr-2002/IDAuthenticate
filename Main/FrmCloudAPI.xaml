@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:Main"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="FrmCloudAPI"
-        Width="300"
+        Width="400"
         Height="300"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
@@ -16,12 +16,35 @@
             <Setter Property="Margin" Value="0,5" />
         </Style>
     </Window.Resources>
-    <StackPanel>
-        <Button Click="btnLogin_Click" Content="Login" />
 
-        <Button Click="btnGetStatus_Click" Content="Get Status" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="60" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-        <Button Click="btnComapre_Click" Content="Compare" />
-        <Button Click="btnUnixDT_Click" Content="Unix DateTime" />
-    </StackPanel>
+        <StackPanel Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Click="btnLogin_Click" Content="Login" />
+            <Button Click="btnGetStatus_Click" Content="Get Status" />
+            <Button Click="btnComapre_Click" Content="Compare" />
+            <Button Click="btnUnixDT_Click" Content="Unix DateTime" />
+        </StackPanel>
+        <Label Name="lblCompare"
+               Grid.Row="1"
+               HorizontalAlignment="Center"
+               FontSize="30" />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0" Source="wyz1.jpg" />
+            <Image Grid.Column="1" Source="wyz2.jpg" />
+        </Grid>
+    </Grid>
 </Window>
