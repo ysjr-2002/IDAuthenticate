@@ -198,9 +198,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="normal.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="sfz.jpg" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,9 @@
-﻿using Main.ViewModel;
+﻿using Common;
+using Main.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,11 +32,23 @@ namespace Main
         const string URL = "http://60.205.107.219";
         const string username = "aobidao";
         const string password = "abd123";
+
+        const string sourceFile = "f:\\zp\\zp.bmp";
+        const string snapFile = "f:\\zp\\ysj.jpg";
+
         public FrmCloudAPI()
         {
             InitializeComponent();
+
+            this.Loaded += FrmCloudAPI_Loaded;
         }
 
+        private void FrmCloudAPI_Loaded(object sender, RoutedEventArgs e)
+        {
+            zp.Source = Funs.ToBitmapSource(sourceFile);
+
+            snap.Source = Funs.ToBitmapSource(snapFile);
+        }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -101,7 +115,6 @@ namespace Main
             var url = string.Concat(URL, "/api/compare");
 
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-            //byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
             wr.ContentType = "multipart/form-data; boundary=" + boundary;
@@ -136,7 +149,7 @@ namespace Main
             byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
             rs.Write(headerbytes, 0, headerbytes.Length);
 
-            fs = System.IO.File.Open(@"d:\wyz1.jpg", FileMode.Open);
+            fs = System.IO.File.Open(@"f:\zp\zp.bmp", FileMode.Open);
             byte[] data = new byte[1024];
             var len = 0;
             while ((len = fs.Read(data, 0, data.Length)) > 0)
@@ -169,7 +182,24 @@ namespace Main
             headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
             rs.Write(headerbytes, 0, headerbytes.Length);
 
-            fs = System.IO.File.Open(@"d:\wyz2.jpg", FileMode.Open);
+            Stopwatch temp = Stopwatch.StartNew();
+            var filePath = @"f:\zp\ysj.jpg";
+            System.Drawing.Image sourceImage = Bitmap.FromFile(filePath);
+
+
+            var width = 400;
+            var height = 400;
+            KeepRatio(sourceImage.Size, ref width, ref height);
+
+            System.Drawing.Image thumbnailImage = sourceImage.GetThumbnailImage(width, height, null, IntPtr.Zero);
+            var savePath = "f:\\zp\\thumb.jpg";
+            thumbnailImage.Save(savePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            thumbnailImage.Dispose();
+
+            temp.Stop();
+            Console.WriteLine("缩略图:" + temp.ElapsedMilliseconds);
+
+            fs = System.IO.File.Open(savePath, FileMode.Open);
             while ((len = fs.Read(data, 0, data.Length)) > 0)
             {
                 rs.Write(data, 0, len);
@@ -199,14 +229,30 @@ namespace Main
             var result = serialze.Deserialize<JsonCompare>(json);
 
             Console.WriteLine(result.data.score);
-
-            if (result.data.score > 80)
+            if (result.data.score > 78)
             {
                 lblCompare.Content = "比对通过";
             }
             else
             {
                 lblCompare.Content = "比对失败";
+            }
+        }
+
+        private void KeepRatio(System.Drawing.Size size, ref int width, ref int height)
+        {
+            double heightRatio = (double)size.Height / size.Width;
+            double widthRatio = (double)size.Width / size.Height;
+
+            var tempheigth = (int)(width / widthRatio);
+            if (tempheigth < size.Height)
+            {
+                height = tempheigth;
+            }
+            else
+            {
+                var tempwidth = (int)(height / heightRatio);
+                width = tempwidth;
             }
         }
 
