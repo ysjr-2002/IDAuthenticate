@@ -1,4 +1,6 @@
-﻿using Main.ViewModel;
+﻿using Common.Dialog;
+using IDReader;
+using Main.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Main
 {
@@ -32,6 +35,7 @@ namespace Main
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            MainViewModel.Instance.UsbCamera = camera;
             MainViewModel.Instance.Init();
         }
     }

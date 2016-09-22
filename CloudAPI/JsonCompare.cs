@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Main.ViewModel
+namespace CloudAPI
 {
     /// <summary>
     /// 人脸比对

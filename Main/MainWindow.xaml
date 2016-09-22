@@ -5,13 +5,51 @@
         xmlns:local="clr-namespace:Main"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wf="clr-namespace:Main.WorkFlow"
+        xmlns:windows="wind"
         Title="人证合一"
         Width="800"
         Height="600"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         mc:Ignorable="d">
-    <Grid>
-        <wf:WelcomePage />
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="华文新魏" />
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+    <Grid Background="#0aadf8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Label Margin="20,0"
+               HorizontalContentAlignment="Left"
+               Content="奥比岛"
+               FontSize="20" />
+
+        <Label Grid.Row="1" Content="请刷身份证" />
+
+        <WindowsFormsHost Grid.Row="2"
+                          Width="512"
+                          Height="384"
+                          Background="{x:Null}">
+            <WindowsFormsHost.Child>
+                <local:ucUsbCamera x:Name="camera" />
+            </WindowsFormsHost.Child>
+        </WindowsFormsHost>
+
+        <Label Grid.Row="3" Content="{Binding CompareResult}" />
+
+        <Label Grid.Row="4"
+               Content="人脸身份证验证系统 Powered by obria"
+               FontSize="14" />
     </Grid>
 </Window>

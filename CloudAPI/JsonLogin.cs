@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Main.ViewModel
+namespace CloudAPI
 {
-    class JsonLogin
+   public class JsonLogin
     {
         public string code { get; set; }
 
         public JsonLoginData data { get; set; }
     }
 
-    class JsonLoginData
+    public class JsonLoginData
     {
         public string company { get; set; }
 
@@ -34,7 +34,7 @@ namespace Main.ViewModel
 
 
 
-    class JsonStatus
+    public class JsonStatus
     {
         public string code { get; set; }
 
@@ -50,7 +50,7 @@ namespace Main.ViewModel
     }
 
 
-    class JsonStatusData
+    public class JsonStatusData
     {
         public string company { get; set; }
 
@@ -64,7 +64,7 @@ namespace Main.ViewModel
     }
 
 
-    class limitation
+    public class limitation
     {
         public int called { get; set; }
 
