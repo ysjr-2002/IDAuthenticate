@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace CloudAPI
 {
-   public class JsonLogin
+    /// <summary>
+    /// 登录 
+    /// </summary>
+    public class JsonLogin
     {
         public string code { get; set; }
 
         public JsonLoginData data { get; set; }
     }
 
+    /// <summary>
+    /// 登录数据
+    /// </summary>
     public class JsonLoginData
     {
         public string company { get; set; }
@@ -32,8 +38,9 @@ namespace CloudAPI
         public string username { get; set; }
     }
 
-
-
+    /// <summary>
+    /// 登录状态
+    /// </summary>
     public class JsonStatus
     {
         public string code { get; set; }

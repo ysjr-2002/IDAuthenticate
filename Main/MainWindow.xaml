@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:camera="clr-namespace:Main.Camera"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Main"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,7 +26,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="60" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="80" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
@@ -42,14 +43,14 @@
                           Height="384"
                           Background="{x:Null}">
             <WindowsFormsHost.Child>
-                <local:ucUsbCamera x:Name="camera" />
+                <camera:ucUsbCamera x:Name="camera" />
             </WindowsFormsHost.Child>
         </WindowsFormsHost>
 
         <Label Grid.Row="3" Content="{Binding CompareResult}" />
 
         <Label Grid.Row="4"
-               Content="人脸身份证验证系统 Powered by obria"
+               Content="人脸身份证验证系统   Powered by obria"
                FontSize="14" />
     </Grid>
 </Window>

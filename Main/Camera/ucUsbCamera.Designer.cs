@@ -1,4 +1,4 @@
-﻿namespace Main
+﻿namespace Main.Camera
 {
     partial class ucUsbCamera
     {

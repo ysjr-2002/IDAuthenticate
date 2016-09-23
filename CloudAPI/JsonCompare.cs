@@ -15,7 +15,9 @@ namespace CloudAPI
 
         public data data { get; set; }
     }
-
+    /// <summary>
+    /// 比对数据
+    /// </summary>
     public class data
     {
         public face face1 { get; set; }
@@ -27,6 +29,9 @@ namespace CloudAPI
         public double score { get; set; }
     }
 
+    /// <summary>
+    /// 人脸
+    /// </summary>
     public class face
     {
         public attrs attrs { get; set; }
@@ -35,7 +40,9 @@ namespace CloudAPI
 
         public rect rect { get; set; }
     }
-
+    /// <summary>
+    /// 人脸质量细节属性
+    /// </summary>
     public class attrs
     {
         /// <summary>
@@ -56,6 +63,9 @@ namespace CloudAPI
         public float yaw { get; set; }
     }
 
+    /// <summary>
+    /// 人脸框位置
+    /// </summary>
     public class rect
     {
         /// <summary>

@@ -31,12 +31,18 @@ namespace Main
 
             this.DataContext = MainViewModel.Instance;
             this.Loaded += MainWindow_Loaded;
+            this.Closing += MainWindow_Closing;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             MainViewModel.Instance.UsbCamera = camera;
             MainViewModel.Instance.Init();
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MainViewModel.Instance.Dispose();
         }
     }
 }

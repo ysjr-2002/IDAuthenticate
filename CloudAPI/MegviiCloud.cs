@@ -19,6 +19,10 @@ namespace CloudAPI
 
         static string cookie = "";
 
+        /// <summary>
+        /// 登录比对服务器
+        /// </summary>
+        /// <returns></returns>
         public static bool Login()
         {
             var data = "username=" + username + "&password=" + password;
@@ -57,7 +61,13 @@ namespace CloudAPI
                 return false;
         }
 
-        public static double Compare(string image1, string image2)
+        /// <summary>
+        /// 比对图片
+        /// </summary>
+        /// <param name="imagepath1"></param>
+        /// <param name="imagepath2"></param>
+        /// <returns></returns>
+        public static double Compare(string imagepath1, string imagepath2)
         {
             var url = string.Concat(URL, "/api/compare");
 
@@ -72,7 +82,6 @@ namespace CloudAPI
             wr.Headers["cookie"] = cookie;
 
             FileStream fs = null;
-
             String prefix = "--";
             string end = "\r\n";
 
@@ -81,9 +90,7 @@ namespace CloudAPI
             sb.Append(boundary);
             sb.Append(end);
 
-            Stopwatch sw = Stopwatch.StartNew();
-
-            Stream rs = wr.GetRequestStream();
+            
             //图像一
             string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"" + end;
             string header = string.Format(headerTemplate, "image1", "image1.jpg");
@@ -92,11 +99,13 @@ namespace CloudAPI
             sb.Append(end);
 
             var str = sb.ToString();
-            Console.WriteLine(str);
             byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
+
+            Stopwatch sw = Stopwatch.StartNew();
+            Stream rs = wr.GetRequestStream();
             rs.Write(headerbytes, 0, headerbytes.Length);
 
-            fs = System.IO.File.Open(image1, FileMode.Open);
+            fs = System.IO.File.Open(imagepath1, FileMode.Open);
             byte[] data = new byte[1024];
             var len = 0;
             while ((len = fs.Read(data, 0, data.Length)) > 0)
@@ -105,7 +114,6 @@ namespace CloudAPI
             }
             fs.Close();
             Array.Clear(data, 0, data.Length);
-
 
             /** 每个文件结束后有换行 **/
             byte[] byteFileEnd = Encoding.UTF8.GetBytes(end);
@@ -119,18 +127,15 @@ namespace CloudAPI
             sb.Append(end);
 
             header = string.Format(headerTemplate, "image2", "image2.jpg");//image/jpeg
-
             sb.Append(header);
             sb.Append("Content-Type: application/octet-stream; charset=utf-8" + end);
             sb.Append(end);
 
             str = sb.ToString();
-            Console.WriteLine(str);
             headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
             rs.Write(headerbytes, 0, headerbytes.Length);
 
-            
-            fs = System.IO.File.Open(image2, FileMode.Open);
+            fs = System.IO.File.Open(imagepath2, FileMode.Open);
             while ((len = fs.Read(data, 0, data.Length)) > 0)
             {
                 rs.Write(data, 0, len);
@@ -154,7 +159,6 @@ namespace CloudAPI
 
             JavaScriptSerializer serialze = new JavaScriptSerializer();
             var result = serialze.Deserialize<JsonCompare>(json);
-
             return result.data.score;
         }
     }

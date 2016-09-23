@@ -100,10 +100,10 @@
       <DependentUpon>FrmCloudAPI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="ucUsbCamera.cs">
+    <Compile Include="Camera\ucUsbCamera.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucUsbCamera.Designer.cs">
+    <Compile Include="Camera\ucUsbCamera.Designer.cs">
       <DependentUpon>ucUsbCamera.cs</DependentUpon>
     </Compile>
     <Compile Include="UsbCamera.cs">
@@ -176,7 +176,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucUsbCamera.resx">
+    <EmbeddedResource Include="Camera\ucUsbCamera.resx">
       <DependentUpon>ucUsbCamera.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UsbCamera.resx">

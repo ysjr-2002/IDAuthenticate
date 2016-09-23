@@ -75,7 +75,6 @@ namespace IDReader
             {
                 _timer.Stop();
             }
-
             CVRSDK.CVR_CloseComm();
         }
 
@@ -113,7 +112,6 @@ namespace IDReader
             }
             catch (Exception)
             {
-
             }
         }
 

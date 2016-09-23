@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AForge.Video.DirectShow;
 
-namespace Main
+namespace Main.Camera
 {
     public partial class ucUsbCamera : UserControl
     {
@@ -23,10 +23,13 @@ namespace Main
         private void UcUsbCamera_Load(object sender, EventArgs e)
         {
             var videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            // create video source
-            VideoCaptureDevice videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
-            videoSourcePlayer1.VideoSource = videoSource;
-            videoSource.Start();
+            if (videoDevices.Count > 0)
+            {
+                // create video source
+                VideoCaptureDevice videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+                videoSourcePlayer1.VideoSource = videoSource;
+                videoSource.Start();
+            }
         }
 
 
