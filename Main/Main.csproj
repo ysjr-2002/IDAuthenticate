@@ -37,6 +37,9 @@
   <PropertyGroup>
     <StartupObject>Main.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>id.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -212,6 +215,9 @@
   <ItemGroup>
     <Resource Include="wyz1.jpg" />
     <Resource Include="wyz2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="id.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

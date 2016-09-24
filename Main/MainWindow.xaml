@@ -10,6 +10,7 @@
         Title="人证合一"
         Width="800"
         Height="600"
+        Icon="id.ico"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -22,35 +23,57 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
     </Window.Resources>
+
     <Grid Background="#0aadf8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="60" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+        <Grid Visibility="{Binding WorkVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="80" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
 
-        <Label Margin="20,0"
-               HorizontalContentAlignment="Left"
-               Content="奥比岛"
-               FontSize="20" />
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="1" Content="请刷身份证" />
+                <Label Grid.Column="0"
+                       Margin="10,0"
+                       HorizontalContentAlignment="Left"
+                       Content="奥比岛"
+                       FontSize="20" />
 
-        <WindowsFormsHost Grid.Row="2"
-                          Width="512"
-                          Height="384"
-                          Background="{x:Null}">
-            <WindowsFormsHost.Child>
-                <camera:ucUsbCamera x:Name="camera" />
-            </WindowsFormsHost.Child>
-        </WindowsFormsHost>
+                <Label Grid.Column="1"
+                       Margin="10,0"
+                       HorizontalContentAlignment="Right"
+                       Content="{Binding CurrentDateTime}"
+                       FontSize="20" />
+            </Grid>
 
-        <Label Grid.Row="3" Content="{Binding CompareResult}" />
 
-        <Label Grid.Row="4"
-               Content="人脸身份证验证系统   Powered by obria"
-               FontSize="14" />
+            <Label Grid.Row="1" Content="请刷身份证" />
+
+            <WindowsFormsHost Grid.Row="2"
+                              Width="512"
+                              Height="384"
+                              Background="{x:Null}">
+                <WindowsFormsHost.Child>
+                    <camera:ucUsbCamera x:Name="camera" />
+                </WindowsFormsHost.Child>
+            </WindowsFormsHost>
+
+            <Label Grid.Row="3" Content="{Binding CompareResult}" />
+
+            <Label Grid.Row="4"
+                   Content="人脸身份证验证系统   Powered by obria"
+                   FontSize="14" />
+        </Grid>
+
+        <Grid Visibility="{Binding InitVibisility}">
+            <Label Grid.Row="3" Content="{Binding CompareResult}" />
+        </Grid>
     </Grid>
 </Window>

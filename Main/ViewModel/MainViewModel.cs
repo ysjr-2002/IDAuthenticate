@@ -22,12 +22,16 @@ namespace Main.ViewModel
     public class MainViewModel : PropertyNotifyObject, IDisposable
     {
         private FuncTimeout timeOut = null;
+        private DispatcherTimer _timer = null;
         private static MainViewModel _instance = new MainViewModel();
 
         private MainViewModel()
         {
             IDCardInfo = new IDCardInfo();
             timeOut = new FuncTimeout();
+
+            WorkVisibility = Visibility.Collapsed;
+            InitVisibility = Visibility.Visible;
         }
 
         public static MainViewModel Instance
@@ -66,11 +70,30 @@ namespace Main.ViewModel
             set { this.SetValue(s => s.PassVisibility, value); }
         }
 
+        public Visibility WorkVisibility
+        {
+            get { return this.GetValue(s => s.WorkVisibility); }
+            set { this.SetValue(s => s.WorkVisibility, value); }
+        }
+
+        public Visibility InitVisibility
+        {
+            get { return this.GetValue(s => s.InitVisibility); }
+            set { this.SetValue(s => s.InitVisibility, value); }
+        }
+
         public string CompareResult
         {
             get { return this.GetValue(s => s.CompareResult); }
             set { this.SetValue(s => s.CompareResult, value); }
         }
+
+        public string CurrentDateTime
+        {
+            get { return this.GetValue(s => s.CurrentDateTime); }
+            set { this.SetValue(s => s.CurrentDateTime, value); }
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -79,12 +102,17 @@ namespace Main.ViewModel
             var taskOpenDeive = SFZReader.Instance.Open();
             CompareResult = "连接证件阅读器...";
             await taskOpenDeive;
-            CompareResult = "连接成功";
 
             SFZReader.Instance.SetReadIDCardCallback(OnReadCardCallback);
 
             var taskLogin = MegviiCloud.Login();
             await taskLogin;
+
+            if (!taskLogin.Result)
+            {
+                CompareResult = "登录比对服务器失败";
+                return;
+            }
 
             var taskStatus = MegviiCloud.GetAccountStatus();
             await taskStatus;
@@ -93,9 +121,22 @@ namespace Main.ViewModel
             if (status.code == 0)
             {
                 CompareResult = "剩余调用次数:" + status.data.limitation.quota;
-                ResetComapreResult(1000);
+                EntraceWorkMode(100);
+                UpdateDateTime();
             }
         }
+
+        private void UpdateDateTime()
+        {
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += (a, b) =>
+            {
+                CurrentDateTime = DateTime.Now.ToStandard();
+            };
+            _timer.Start();
+        }
+
         /// <summary>
         /// 读取到证件信息回调
         /// </summary>
@@ -108,13 +149,16 @@ namespace Main.ViewModel
         private void Compare()
         {
             CompareResult = "抓拍人脸，请稍等...";
-
             var imagepath2 = UsbCamera.Snap();
             CompareResult = "正在比对，请稍等...";
 
             var imagepath1 = Environment.CurrentDirectory + "\\dll\\zp.bmp";
             var score = (int)MegviiCloud.Compare(imagepath1, imagepath2);
-            if (score > 78)
+            if (score == -1)
+            {
+                CompareResult = "请求比对服务失败";
+            }
+            else if (score > 78)
             {
                 CompareResult = "比对通过->" + score;
             }
@@ -122,13 +166,23 @@ namespace Main.ViewModel
             {
                 CompareResult = "比对失败->" + score;
             }
-            ResetComapreResult(2000);
+            ClearComapreResult(2000);
+        }
+
+        private void EntraceWorkMode(int millsecond)
+        {
+            timeOut.StartOnce(millsecond, () =>
+            {
+                CompareResult = string.Empty;
+                WorkVisibility = Visibility.Visible;
+                InitVisibility = Visibility.Collapsed;
+            });
         }
         /// <summary>
         /// 清空比对结果
         /// </summary>
         /// <param name="millsecond"></param>
-        private void ResetComapreResult(int millsecond)
+        private void ClearComapreResult(int millsecond)
         {
             timeOut.StartOnce(millsecond, () =>
             {
@@ -138,6 +192,10 @@ namespace Main.ViewModel
 
         public void Dispose()
         {
+            if (_timer != null)
+            {
+                _timer.Stop();
+            }
             SFZReader.Instance.Stop();
         }
     }
