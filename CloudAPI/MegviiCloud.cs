@@ -173,6 +173,9 @@ namespace CloudAPI
                 headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
                 rs.Write(headerbytes, 0, headerbytes.Length);
 
+                //获取图片的缩略图
+                imagepath2 = ImageTool.ThumbImage(imagepath2);
+
                 fs = System.IO.File.Open(imagepath2, FileMode.Open);
                 while ((len = fs.Read(data, 0, data.Length)) > 0)
                 {
@@ -193,7 +196,8 @@ namespace CloudAPI
                 StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
                 var json = sr.ReadToEnd();
                 sw.Stop();
-                Console.WriteLine("compare:" + sw.ElapsedMilliseconds);
+
+                LogHelper.Info("Compare->" + sw.ElapsedMilliseconds);
 
                 JavaScriptSerializer serialze = new JavaScriptSerializer();
                 var result = serialze.Deserialize<JsonCompare>(json);

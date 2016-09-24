@@ -7,6 +7,7 @@ using Main.Camera;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -121,7 +122,7 @@ namespace Main.ViewModel
             if (status.code == 0)
             {
                 CompareResult = "剩余调用次数:" + status.data.limitation.quota;
-                EntraceWorkMode(100);
+                EntraceWorkMode(1000);
                 UpdateDateTime();
             }
         }
@@ -148,11 +149,17 @@ namespace Main.ViewModel
 
         private void Compare()
         {
+            var filename = DateTime.Now.ToString("HHmmss");
+
             CompareResult = "抓拍人脸，请稍等...";
-            var imagepath2 = UsbCamera.Snap();
+            var imagepath2 = UsbCamera.Snap(filename);
             CompareResult = "正在比对，请稍等...";
 
-            var imagepath1 = Environment.CurrentDirectory + "\\dll\\zp.bmp";
+            var zp = Environment.CurrentDirectory + "\\dll\\zp.bmp";
+            var imagepath1 = Path.Combine(FileManager.GetFolder(), filename + ".bmp");
+            //拷贝文件
+            File.Copy(zp, imagepath1);
+
             var score = (int)MegviiCloud.Compare(imagepath1, imagepath2);
             if (score == -1)
             {

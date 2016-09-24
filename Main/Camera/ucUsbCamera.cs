@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AForge.Video.DirectShow;
+using Common.WebAPI;
+using Main.ViewModel;
+using System.IO;
 
 namespace Main.Camera
 {
@@ -35,9 +38,9 @@ namespace Main.Camera
         /// 抓拍人脸图片
         /// </summary>
         /// <returns></returns>
-        public string Snap()
+        public string Snap(string filename)
         {
-            var filepath = "d:\\snap\\" + DateTime.Now.Ticks + ".jpg";
+            var filepath = Path.Combine(FileManager.GetFolder(), filename + ".jpg");
             var bitmap = videoSourcePlayer1.GetCurrentVideoFrame();
             bitmap.Save(filepath, System.Drawing.Imaging.ImageFormat.Jpeg);
             return filepath;

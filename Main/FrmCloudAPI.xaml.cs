@@ -150,7 +150,7 @@ namespace Main
             byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
             rs.Write(headerbytes, 0, headerbytes.Length);
 
-            fs = System.IO.File.Open(@"d:\zp\zp.bmp", FileMode.Open);
+            fs = System.IO.File.Open(@"f:\zp\zp.bmp", FileMode.Open);
             byte[] data = new byte[1024];
             var len = 0;
             while ((len = fs.Read(data, 0, data.Length)) > 0)
@@ -183,22 +183,22 @@ namespace Main
             headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
             rs.Write(headerbytes, 0, headerbytes.Length);
 
-            //Stopwatch temp = Stopwatch.StartNew();
-            //var filePath = @"f:\zp\ysj.jpg";
-            //System.Drawing.Image sourceImage = Bitmap.FromFile(filePath);
+            Stopwatch temp = Stopwatch.StartNew();
+            var filePath = @"f:\zp\ysj.jpg";
+            System.Drawing.Image sourceImage = Bitmap.FromFile(filePath);
 
+            var width = 160;
+            var height = 90;
+            KeepRatio(sourceImage.Size, ref width, ref height);
 
-            //var width = 400;
-            //var height = 400;
-            //KeepRatio(sourceImage.Size, ref width, ref height);
+            System.Drawing.Image thumbnailImage = sourceImage.GetThumbnailImage(width, height, null, IntPtr.Zero);
+            var savePath = "f:\\zp\\thumb.jpg";
+            File.Delete(savePath);
+            thumbnailImage.Save(savePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            thumbnailImage.Dispose();
 
-            //System.Drawing.Image thumbnailImage = sourceImage.GetThumbnailImage(width, height, null, IntPtr.Zero);
-            var savePath = "d:\\zp\\thumb.jpg";
-            //thumbnailImage.Save(savePath, System.Drawing.Imaging.ImageFormat.Jpeg);
-            //thumbnailImage.Dispose();
-
-            //temp.Stop();
-            //Console.WriteLine("缩略图:" + temp.ElapsedMilliseconds);
+            temp.Stop();
+            Console.WriteLine("缩略图:" + temp.ElapsedMilliseconds);
 
             fs = System.IO.File.Open(savePath, FileMode.Open);
             while ((len = fs.Read(data, 0, data.Length)) > 0)

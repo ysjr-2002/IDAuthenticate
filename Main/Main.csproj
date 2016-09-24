@@ -102,19 +102,13 @@
     <Compile Include="FrmCloudAPI.xaml.cs">
       <DependentUpon>FrmCloudAPI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Camera\ucUsbCamera.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Camera\ucUsbCamera.Designer.cs">
       <DependentUpon>ucUsbCamera.cs</DependentUpon>
     </Compile>
-    <Compile Include="UsbCamera.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UsbCamera.Designer.cs">
-      <DependentUpon>UsbCamera.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModel\FileManager.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="WorkFlow\PassPage.xaml.cs">
       <DependentUpon>PassPage.xaml</DependentUpon>
@@ -181,9 +175,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Camera\ucUsbCamera.resx">
       <DependentUpon>ucUsbCamera.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UsbCamera.resx">
-      <DependentUpon>UsbCamera.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
