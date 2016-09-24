@@ -23,6 +23,7 @@ namespace Main.ViewModel
     {
         private FuncTimeout timeOut = null;
         private static MainViewModel _instance = new MainViewModel();
+
         private MainViewModel()
         {
             IDCardInfo = new IDCardInfo();
@@ -73,23 +74,26 @@ namespace Main.ViewModel
         /// <summary>
         /// 初始化
         /// </summary>
-        public void Init()
+        public async void Init()
         {
-            var open = SFZReader.Instance.Open();
-            if (open)
-            {
-                SFZReader.Instance.SetReadIDCardCallback(OnReadCardCallback);
-            }
-            else
-            {
-            }
+            var taskOpenDeive = SFZReader.Instance.Open();
+            CompareResult = "连接证件阅读器...";
+            await taskOpenDeive;
+            CompareResult = "连接成功";
 
-            var login = MegviiCloud.Login();
-            if (login)
+            SFZReader.Instance.SetReadIDCardCallback(OnReadCardCallback);
+
+            var taskLogin = MegviiCloud.Login();
+            await taskLogin;
+
+            var taskStatus = MegviiCloud.GetAccountStatus();
+            await taskStatus;
+
+            JsonStatus status = taskStatus.Result;
+            if (status.code == 0)
             {
-            }
-            else
-            {
+                CompareResult = "剩余调用次数:" + status.data.limitation.quota;
+                ResetComapreResult(1000);
             }
         }
         /// <summary>
@@ -118,7 +122,15 @@ namespace Main.ViewModel
             {
                 CompareResult = "比对失败->" + score;
             }
-            timeOut.StartOnce(2000, () =>
+            ResetComapreResult(2000);
+        }
+        /// <summary>
+        /// 清空比对结果
+        /// </summary>
+        /// <param name="millsecond"></param>
+        private void ResetComapreResult(int millsecond)
+        {
+            timeOut.StartOnce(millsecond, () =>
             {
                 CompareResult = "";
             });

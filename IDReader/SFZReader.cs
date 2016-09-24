@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Common;
+using System.Diagnostics;
 
 namespace IDReader
 {
@@ -35,38 +36,42 @@ namespace IDReader
             }
         }
 
-        public bool Open()
+        public Task<bool> Open()
         {
-            int usbInterface = 0;
-            int comInterface = 0;
-            for (var port = 1001; port <= 1016; port++)
+            var task = Task.Factory.StartNew(() =>
             {
-                usbInterface = CVRSDK.CVR_InitComm(port);
-                if (usbInterface == 1)
+                int usbInterface = 0;
+                int comInterface = 0;
+                for (var port = 1001; port <= 1016; port++)
                 {
-                    break;
-                }
-            }
-            if (usbInterface != 1)
-            {
-                for (var port = 1; port <= 4; port++)
-                {
-                    comInterface = CVRSDK.CVR_InitComm(port);
-                    if (comInterface == 1)
+                    usbInterface = CVRSDK.CVR_InitComm(port);
+                    if (usbInterface == 1)
                     {
                         break;
                     }
                 }
-            }
-            if (usbInterface == 1 || comInterface == 1)
-            {
-                OpenTimer();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+                if (usbInterface != 1)
+                {
+                    for (var port = 1; port <= 4; port++)
+                    {
+                        comInterface = CVRSDK.CVR_InitComm(port);
+                        if (comInterface == 1)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (usbInterface == 1 || comInterface == 1)
+                {
+                    OpenTimer();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+            return task;
         }
 
         public void Stop()

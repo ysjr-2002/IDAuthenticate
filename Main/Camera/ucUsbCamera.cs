@@ -31,8 +31,10 @@ namespace Main.Camera
                 videoSource.Start();
             }
         }
-
-
+        /// <summary>
+        /// 抓拍人脸图片
+        /// </summary>
+        /// <returns></returns>
         public string Snap()
         {
             var filepath = "d:\\snap\\" + DateTime.Now.Ticks + ".jpg";

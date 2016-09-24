@@ -11,7 +11,7 @@ namespace CloudAPI
     /// </summary>
     public class JsonLogin
     {
-        public string code { get; set; }
+        public int code { get; set; }
 
         public JsonLoginData data { get; set; }
     }
@@ -43,7 +43,7 @@ namespace CloudAPI
     /// </summary>
     public class JsonStatus
     {
-        public string code { get; set; }
+        public int code { get; set; }
 
         public JsonStatusData data { get; set; }
 

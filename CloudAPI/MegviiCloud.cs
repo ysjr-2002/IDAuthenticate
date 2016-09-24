@@ -23,44 +23,68 @@ namespace CloudAPI
         /// 登录比对服务器
         /// </summary>
         /// <returns></returns>
-        public static bool Login()
+        public static Task<bool> Login()
         {
-            var data = "username=" + username + "&password=" + password;
-            var buffer = System.Text.Encoding.UTF8.GetBytes(data);
+            var task = Task.Factory.StartNew(() =>
+            {
+                var data = "username=" + username + "&password=" + password;
+                var buffer = System.Text.Encoding.UTF8.GetBytes(data);
 
-            var url = string.Concat(URL, "/auth/login");
+                var url = string.Concat(URL, "/auth/login");
 
-            Stopwatch sw = Stopwatch.StartNew();
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
-            wr.ContentType = "application/x-www-form-urlencoded";
-            wr.Method = "POST";
-            wr.ContentLength = buffer.Length;
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+                wr.ContentType = "application/x-www-form-urlencoded";
+                wr.Method = "POST";
+                wr.ContentLength = buffer.Length;
 
-            var requeststream = wr.GetRequestStream();
-            requeststream.Write(buffer, 0, buffer.Length);
-            requeststream.Close();
+                var requeststream = wr.GetRequestStream();
+                requeststream.Write(buffer, 0, buffer.Length);
+                requeststream.Close();
 
-            HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
-            var stream = response.GetResponseStream();
-            StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
-            var json = sr.ReadToEnd();
-            sw.Stop();
-            Console.WriteLine("login:" + sw.ElapsedMilliseconds);
+                HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
+                var stream = response.GetResponseStream();
+                StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
+                var json = sr.ReadToEnd();
 
-            var headers = response.Headers;
+                var headers = response.Headers;
 
-            cookie = headers["Set-Cookie"];
-            Console.WriteLine("cookie:" + cookie);
+                cookie = headers["Set-Cookie"];
 
-            JavaScriptSerializer serialize = new JavaScriptSerializer();
-            var obj = serialize.Deserialize<JsonLogin>(json);
+                JavaScriptSerializer serialize = new JavaScriptSerializer();
+                var obj = serialize.Deserialize<JsonLogin>(json);
+                if (obj.code == 0)
+                    return true;
+                else
+                    return false;
+            });
 
-            if (obj.code == "0")
-                return true;
-            else
-                return false;
+            return task;
         }
+        /// <summary>
+        /// 获取账号状态
+        /// </summary>
+        /// <returns></returns>
+        public static Task<JsonStatus> GetAccountStatus()
+        {
+            var task = Task.Factory.StartNew(() =>
+            {
+                var url = string.Concat(URL, "/auth/status");
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+                wr.Method = "Get";
+                wr.Headers["cookie"] = cookie;
+                var response = wr.GetResponse();
+                var stream = response.GetResponseStream();
+                StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8);
+                var json = sr.ReadToEnd();
+                sr.Close();
+                response.Close();
 
+                JavaScriptSerializer serialize = new JavaScriptSerializer();
+                var status = serialize.Deserialize<JsonStatus>(json);
+                return status;
+            });
+            return task;
+        }
         /// <summary>
         /// 比对图片
         /// </summary>
@@ -90,7 +114,7 @@ namespace CloudAPI
             sb.Append(boundary);
             sb.Append(end);
 
-            
+
             //图像一
             string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"" + end;
             string header = string.Format(headerTemplate, "image1", "image1.jpg");
