@@ -13,7 +13,7 @@ namespace Main.ViewModel
     /// </summary>
     public static class FileManager
     {
-        private const string root = "E:\\snap";
+        private const string root = "D:\\face";
 
         static FileManager()
         {

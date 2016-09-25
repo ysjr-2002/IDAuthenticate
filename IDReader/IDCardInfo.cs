@@ -94,7 +94,6 @@ namespace IDReader
             set { this.SetValue(s => s.Photo, value); }
         }
 
-
         public ImageSource Face
         {
             get { return this.GetValue(s => s.Face); }

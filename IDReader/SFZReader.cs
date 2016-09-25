@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Common;
 using System.Diagnostics;
+using System.Threading;
+using Common.Dialog;
 
 namespace IDReader
 {
@@ -17,11 +19,14 @@ namespace IDReader
     /// </remarks>
     public class SFZReader
     {
+        private bool _isStop = false;
         private DispatcherTimer _timer = null;
+
         private Action<IDCardInfo> _readIDCardCallback = null;
 
         private SFZReader()
         {
+            IDCardInfo = new IDCardInfo();
         }
 
         private static SFZReader _instance = null;
@@ -76,6 +81,7 @@ namespace IDReader
 
         public void Stop()
         {
+            _isStop = true;
             if (_timer != null)
             {
                 _timer.Stop();
@@ -96,24 +102,39 @@ namespace IDReader
         private void OpenTimer()
         {
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(500);
+            _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += ReadID_Tick;
             _timer.Start();
+
+            ThreadPool.QueueUserWorkItem((s) =>
+            {
+                while (!_isStop)
+                {
+                    Read();
+                    Thread.Sleep(500);
+                }
+            });
+
+        }
+
+        private void Read()
+        {
+            int authenticate = CVRSDK.CVR_Authenticate();
+            if (authenticate == 1)
+            {
+                int readContent = CVRSDK.CVR_Read_Content(4);
+                if (readContent == 1)
+                {
+                    FillData();
+                }
+            }
         }
 
         private void ReadID_Tick(object sender, EventArgs e)
         {
             try
             {
-                int authenticate = CVRSDK.CVR_Authenticate();
-                if (authenticate == 1)
-                {
-                    int readContent = CVRSDK.CVR_Read_Content(4);
-                    if (readContent == 1)
-                    {
-                        FillData();
-                    }
-                }
+                CustomDialog.Show("ri");
             }
             catch (Exception)
             {
@@ -182,8 +203,6 @@ namespace IDReader
             IDCardInfo.Department = signdate.ToGBString();
 
             var zpPath = Environment.CurrentDirectory + "\\dll\\zp.bmp";
-            IDCardInfo.Face = Funs.ToBitmapSource(zpPath);
-            System.IO.File.Delete(zpPath);
 
             _readIDCardCallback?.Invoke(IDCardInfo);
         }
