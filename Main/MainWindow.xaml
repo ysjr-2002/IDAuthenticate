@@ -72,7 +72,7 @@
                    FontSize="14" />
         </Grid>
 
-        <Grid Visibility="{Binding InitVibisility}">
+        <Grid Visibility="{Binding InitVisibility}">
             <Label Grid.Row="3" Content="{Binding CompareResult}" />
         </Grid>
     </Grid>

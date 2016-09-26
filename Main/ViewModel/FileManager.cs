@@ -9,7 +9,7 @@ using System.IO;
 namespace Main.ViewModel
 {
     /// <summary>
-    /// 文件管理器
+    /// 文件目录管理器
     /// </summary>
     public static class FileManager
     {

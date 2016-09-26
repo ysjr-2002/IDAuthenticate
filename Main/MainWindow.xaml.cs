@@ -44,5 +44,15 @@ namespace Main
         {
             MainViewModel.Instance.Dispose();
         }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.F4)
+            {
+                this.Close();
+                e.Handled = true;
+            }
+            base.OnPreviewKeyDown(e);
+        }
     }
 }

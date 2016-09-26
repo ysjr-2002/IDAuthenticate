@@ -8,6 +8,7 @@ using Common;
 using System.Diagnostics;
 using System.Threading;
 using Common.Dialog;
+using Common.Log;
 
 namespace IDReader
 {
@@ -19,11 +20,11 @@ namespace IDReader
     /// </remarks>
     public class SFZReader
     {
-        private bool _isStop = false;
-        private DispatcherTimer _timer = null;
-
+        private Thread _thread = null;
+        private bool _isStopRead = false;
         private Action<IDCardInfo> _readIDCardCallback = null;
 
+        private const int Interval = 500;
         private SFZReader()
         {
             IDCardInfo = new IDCardInfo();
@@ -68,7 +69,7 @@ namespace IDReader
                 }
                 if (usbInterface == 1 || comInterface == 1)
                 {
-                    OpenTimer();
+                    StartReadID();
                     return true;
                 }
                 else
@@ -81,10 +82,11 @@ namespace IDReader
 
         public void Stop()
         {
-            _isStop = true;
-            if (_timer != null)
+            _isStopRead = true;
+            if (_thread != null)
             {
-                _timer.Stop();
+                _thread.Join();
+                _thread = null;
             }
             CVRSDK.CVR_CloseComm();
         }
@@ -99,45 +101,33 @@ namespace IDReader
             _readIDCardCallback = callback;
         }
 
-        private void OpenTimer()
+        private void StartReadID()
         {
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += ReadID_Tick;
-            _timer.Start();
-
-            ThreadPool.QueueUserWorkItem((s) =>
-            {
-                while (!_isStop)
-                {
-                    Read();
-                    Thread.Sleep(500);
-                }
-            });
-
+            _thread = new Thread(doRead);
+            _thread.Start();
         }
 
-        private void Read()
+        private void doRead()
         {
-            int authenticate = CVRSDK.CVR_Authenticate();
-            if (authenticate == 1)
+            while (!_isStopRead)
             {
-                int readContent = CVRSDK.CVR_Read_Content(4);
-                if (readContent == 1)
+                try
                 {
-                    FillData();
+                    int authenticate = CVRSDK.CVR_Authenticate();
+                    if (authenticate == 1)
+                    {
+                        int readContent = CVRSDK.CVR_Read_Content(4);
+                        if (readContent == 1)
+                        {
+                            FillData();
+                        }
+                    }
+                    Thread.Sleep(Interval);
                 }
-            }
-        }
-
-        private void ReadID_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                CustomDialog.Show("ri");
-            }
-            catch (Exception)
-            {
+                catch (Exception ex)
+                {
+                    LogHelper.Info("读取证件信息出错:" + ex.Message);
+                }
             }
         }
 
