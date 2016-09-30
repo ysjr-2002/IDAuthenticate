@@ -115,6 +115,13 @@ namespace Main.ViewModel
                 return;
             }
 
+            var connect = UsbCamera.Connect();
+            if(!connect)
+            {
+                CompareResult = "配置的摄像头需要不存在";
+                return;
+            }
+
             var taskStatus = MegviiCloud.GetAccountStatus();
             await taskStatus;
 
@@ -203,6 +210,7 @@ namespace Main.ViewModel
             {
                 _timer.Stop();
             }
+            UsbCamera.StopCamera();
             SFZReader.Instance.Stop();
         }
     }

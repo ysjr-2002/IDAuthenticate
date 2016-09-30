@@ -36,6 +36,7 @@ namespace Main
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            ConfigPublic.Init();
             MainViewModel.Instance.UsbCamera = camera;
             MainViewModel.Instance.Init();
         }

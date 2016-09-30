@@ -11,28 +11,37 @@ using AForge.Video.DirectShow;
 using Common.WebAPI;
 using Main.ViewModel;
 using System.IO;
+using Common.Dialog;
 
 namespace Main.Camera
 {
     public partial class ucUsbCamera : UserControl
     {
+        private VideoCaptureDevice currentDevice = null;
         public ucUsbCamera()
         {
             InitializeComponent();
-
             this.Load += UcUsbCamera_Load;
         }
 
         private void UcUsbCamera_Load(object sender, EventArgs e)
         {
+        }
+
+        public bool Connect()
+        {
             var videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (videoDevices.Count > 0)
+
+            if (ConfigPublic.CameraIndex > videoDevices.Count - 1)
             {
-                // create video source
-                VideoCaptureDevice videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
-                videoSourcePlayer1.VideoSource = videoSource;
-                videoSource.Start();
+                return false;
             }
+
+            // create video source
+            currentDevice = new VideoCaptureDevice(videoDevices[ConfigPublic.CameraIndex].MonikerString);
+            videoSourcePlayer1.VideoSource = currentDevice;
+            currentDevice.Start();
+            return true;
         }
         /// <summary>
         /// 抓拍人脸图片
@@ -44,6 +53,14 @@ namespace Main.Camera
             var bitmap = videoSourcePlayer1.GetCurrentVideoFrame();
             bitmap.Save(filepath, System.Drawing.Imaging.ImageFormat.Jpeg);
             return filepath;
+        }
+
+        public void StopCamera()
+        {
+            if (currentDevice != null)
+            {
+                currentDevice.Stop();
+            }
         }
     }
 }

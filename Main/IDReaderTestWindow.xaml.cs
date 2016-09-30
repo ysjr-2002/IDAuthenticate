@@ -74,7 +74,6 @@ namespace Main
             }
             catch (Exception)
             {
-
             }
         }
 
