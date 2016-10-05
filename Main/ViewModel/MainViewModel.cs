@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace Main.ViewModel
@@ -95,6 +96,22 @@ namespace Main.ViewModel
             set { this.SetValue(s => s.CurrentDateTime, value); }
         }
 
+        private ICommand closeCommand;
+        public ICommand CloseCommand
+        {
+            get
+            {
+                if (closeCommand == null)
+                {
+                    closeCommand = new SimpleCommand(() =>
+                    {
+                        Application.Current.MainWindow.Close();
+                    });
+                }
+                return closeCommand;
+            }
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -116,7 +133,7 @@ namespace Main.ViewModel
             }
 
             var connect = UsbCamera.Connect();
-            if(!connect)
+            if (!connect)
             {
                 CompareResult = "配置的摄像头需要不存在";
                 return;

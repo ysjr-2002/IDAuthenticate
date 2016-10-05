@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace Main
 {
@@ -46,14 +47,21 @@ namespace Main
             MainViewModel.Instance.Dispose();
         }
 
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
-            if (e.Key == Key.F4)
+            var dialog = CustomDialog.Confirm("确认退出系统吗？");
+            if (dialog == MessageBoxResult.No)
             {
-                this.Close();
-                e.Handled = true;
+                e.Cancel = true;
+                return;
             }
-            base.OnPreviewKeyDown(e);
+            base.OnClosing(e);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var filename = DateTime.Now.ToString("HHmmss");
+            camera.Snap(filename);
         }
     }
 }

@@ -24,6 +24,10 @@
         </Style>
     </Window.Resources>
 
+    <Window.InputBindings>
+        <KeyBinding Key="F4" Command="{Binding CloseCommand}" />
+    </Window.InputBindings>
+
     <Grid Background="#00a0e9">
         <Grid Visibility="{Binding WorkVisibility}">
             <Grid.RowDefinitions>
@@ -37,8 +41,10 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
                 <Image Width="24"
@@ -52,12 +58,21 @@
                        FontSize="20" />
 
                 <Label Grid.Column="2"
-                       Margin="10,0"
+                       Margin="10,1"
                        HorizontalContentAlignment="Right"
                        Content="{Binding CurrentDateTime}"
-                       FontSize="20" />
-            </Grid>
+                       FontSize="20"
+                       FontWeight="Normal" />
 
+                <Image Grid.Column="4"
+                       Cursor="Hand"
+                       Source="close.png"
+                       ToolTip="关闭">
+                    <Image.InputBindings>
+                        <MouseBinding Command="{Binding CloseCommand}" MouseAction="LeftClick" />
+                    </Image.InputBindings>
+                </Image>
+            </Grid>
 
             <Label Grid.Row="1" Content="请刷身份证" />
 
