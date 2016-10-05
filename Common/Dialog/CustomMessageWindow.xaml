@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:Common.Dialog"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Width="320"
-        Height="150"
+        Height="166"
         Background="#F3F3F5"
         FontFamily="微软雅黑"
         ResizeMode="NoResize"
@@ -15,11 +15,6 @@
         WindowStyle="None"
         mc:Ignorable="d">
     <Window.Resources>
-        <!--<ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Hz.Products.UIThemes;component/TPButton/Button.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>-->
 
         <SolidColorBrush x:Key="WindowTitleColorBrush" Color="#3C4144" />
         <SolidColorBrush x:Key="DialogForeground" Color="Black" />
@@ -54,6 +49,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
@@ -105,9 +101,17 @@
                                          RelativeSource={RelativeSource Self}}" />
         </Grid>
 
+        <Path Grid.Row="2"
+              Margin="0,8"
+              Stroke="#cccccc">
+            <Path.Data>
+                <LineGeometry StartPoint="0,0" EndPoint="1920,1" />
+            </Path.Data>
+        </Path>
+
         <!--  行三 按钮区  -->
         <StackPanel Name="spInfo"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Margin="0,0,0,5"
                     Visibility="Visible">
             <Button Name="btnOK"
@@ -116,7 +120,7 @@
                     Style="{StaticResource tpButton}" />
         </StackPanel>
         <StackPanel Name="spQuestion"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Margin="0,0,0,5"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal"
