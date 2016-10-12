@@ -48,14 +48,16 @@ namespace Main.Camera
             {
                 LogHelper.Info("预览分辨率->" + video.FrameSize.Width + "*" + video.FrameSize.Height);
             }
-            currentDevice.VideoResolution = currentDevice.VideoCapabilities.Last();
+            if (videoCapabilities.Count() > 0)
+                currentDevice.VideoResolution = currentDevice.VideoCapabilities.Last();
 
             var snapVabalities = currentDevice.SnapshotCapabilities;
             foreach (var snap in snapVabalities)
             {
                 LogHelper.Info("抓拍分辨率->" + snap.FrameSize.Width + "*" + snap.FrameSize.Height);
             }
-            currentDevice.SnapshotResolution = currentDevice.SnapshotCapabilities.Last();
+            if (snapVabalities.Count() > 0)
+                currentDevice.SnapshotResolution = currentDevice.SnapshotCapabilities.Last();
             currentDevice.Start();
 
             //currentDevice.ProvideSnapshots = true;

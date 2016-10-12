@@ -29,13 +29,11 @@
     </Window.InputBindings>
 
     <Grid Background="#00a0e9">
-        <Grid Visibility="{Binding WorkVisibility}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="60" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="80" />
-                <RowDefinition Height="auto" />
+
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -74,26 +72,39 @@
                 </Image>
             </Grid>
 
-            <Label Grid.Row="1" Content="请刷身份证" />
+            <Grid Grid.Row="1" Visibility="{Binding WorkVisibility}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
 
-            <WindowsFormsHost Grid.Row="2"
-                              Width="512"
-                              Height="384"
-                              Background="{x:Null}">
-                <WindowsFormsHost.Child>
-                    <camera:ucUsbCamera x:Name="camera" />
-                </WindowsFormsHost.Child>
-            </WindowsFormsHost>
+                <Label Grid.Row="0" Content="请刷身份证" />
 
-            <Label Grid.Row="3" Content="{Binding CompareResult}" />
+                <WindowsFormsHost Grid.Row="1"
+                                  Width="512"
+                                  Height="384"
+                                  Background="{x:Null}">
+                    <WindowsFormsHost.Child>
+                        <camera:ucUsbCamera x:Name="camera" />
+                    </WindowsFormsHost.Child>
+                </WindowsFormsHost>
 
-            <Label Grid.Row="4"
-                   Content="人脸身份证验证系统   Powered by obria"
-                   FontSize="14" />
+                <Label Grid.Row="2" Content="{Binding CompareResult}" />
+
+                <Label Grid.Row="3"
+                       Content="人脸身份证验证系统   Powered by obria"
+                       FontSize="14" />
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="{Binding InitVisibility}">
+                <Label Content="{Binding CompareResult}" />
+            </Grid>
+
+
         </Grid>
 
-        <Grid Visibility="{Binding InitVisibility}">
-            <Label Grid.Row="3" Content="{Binding CompareResult}" />
-        </Grid>
+
     </Grid>
 </Window>

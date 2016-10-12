@@ -40,14 +40,12 @@ namespace Main
         public FrmCloudAPI()
         {
             InitializeComponent();
-
             this.Loaded += FrmCloudAPI_Loaded;
         }
 
         private void FrmCloudAPI_Loaded(object sender, RoutedEventArgs e)
         {
             zp.Source = Funs.ToBitmapSource(sourceFile);
-
             snap.Source = Funs.ToBitmapSource(snapFile);
         }
 
