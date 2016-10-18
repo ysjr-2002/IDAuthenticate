@@ -107,6 +107,15 @@ namespace CloudAPI
         /// <returns></returns>
         public static double Compare(string imagepath1, string imagepath2)
         {
+            var image1 = File.ReadAllBytes(imagepath1);
+            //缩略图
+            imagepath2 = ImageTool.ThumbImage(imagepath2);
+            var image2 = File.ReadAllBytes(imagepath2);
+            return Compare(image1, image2);
+        }
+
+        public static double Compare(byte[] image1, byte[] image2)
+        {
             var url = string.Concat(URL, "/api/compare");
 
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
@@ -118,7 +127,6 @@ namespace CloudAPI
             wr.Headers["cookie"] = cookie;
             wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
 
-            FileStream fs = null;
             String prefix = "--";
             string end = "\r\n";
 
@@ -143,15 +151,7 @@ namespace CloudAPI
                 Stream rs = wr.GetRequestStream();
                 rs.Write(headerbytes, 0, headerbytes.Length);
 
-                fs = System.IO.File.Open(imagepath1, FileMode.Open);
-                byte[] data = new byte[1024];
-                var len = 0;
-                while ((len = fs.Read(data, 0, data.Length)) > 0)
-                {
-                    rs.Write(data, 0, len);
-                }
-                fs.Close();
-                Array.Clear(data, 0, data.Length);
+                Write(image1, rs);
 
                 /** 每个文件结束后有换行 **/
                 byte[] byteFileEnd = Encoding.UTF8.GetBytes(end);
@@ -173,15 +173,7 @@ namespace CloudAPI
                 headerbytes = System.Text.Encoding.UTF8.GetBytes(str);
                 rs.Write(headerbytes, 0, headerbytes.Length);
 
-                //获取图片的缩略图
-                imagepath2 = ImageTool.ThumbImage(imagepath2);
-
-                fs = System.IO.File.Open(imagepath2, FileMode.Open);
-                while ((len = fs.Read(data, 0, data.Length)) > 0)
-                {
-                    rs.Write(data, 0, len);
-                }
-                fs.Close();
+                Write(image2, rs);
 
                 /** 每个文件结束后有换行 **/
                 rs.Write(byteFileEnd, 0, byteFileEnd.Length);
@@ -207,6 +199,19 @@ namespace CloudAPI
             {
                 LogHelper.Info("比对调用失败->" + ex.Message);
                 return -1;
+            }
+        }
+
+        private static void Write(byte[] buffer, Stream output)
+        {
+            using (var input = new MemoryStream(buffer))
+            {
+                var len = 0;
+                var data = new byte[1024];
+                while ((len = input.Read(data, 0, data.Length)) > 0)
+                {
+                    output.Write(data, 0, len);
+                }
             }
         }
     }
