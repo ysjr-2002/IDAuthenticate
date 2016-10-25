@@ -1,0 +1,835 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>版本更新历史</title>
+
+</head>
+<body>
+<h1>版本更新历史</h1>
+
+<ul>
+<li>API版本：1.0.0</li>
+<li><p>服务器端版本：1.0</p>
+
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>操作</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一版</td>
+<td>init</td>
+<td>init</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<h1>服务器地址</h1>
+
+<ul>
+<li>服务器地址为： https://60.205.107.219<br></li>
+</ul>
+
+
+<h1>目录</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="4" style="background-color : #eee;"><a href="#0">零、返回值说明</a></th>
+        </tr>
+        <tr>
+            <th colspan="4" style="background-color : #eee;">一、API</th>
+        </tr>
+         <tr style="background-color : #eee">
+            <td>功能</td>
+            <td>方法</td>
+            <td>接口url</td>
+            <td>接口作用</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href='#0'>0. 错误处理</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>            
+        <tr>
+            <td rowspan="2"><a href='#1'>1. 账号</href></td>
+            <td>POST</td>
+            <td><a href='#1.1'>/auth/login</td>
+            <td>1.1 登录</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td><a href='#1.2'>/auth/status</td>
+            <td>1.2 查看账号状态</td>
+        </tr>
+        <tr>
+            <td rowspan="7"><a href='#2'>2. 云识别</td>
+            <td>GET</td>
+            <td><a href='#2.1'>/api/compare</td>
+            <td>2.1 1:1静态比对</td>
+        </tr>
+    </tbody>
+
+    <thead>
+        <tr>
+            <th colspan="4" style="background-color : #eee;">附录</th>
+        </tr>
+        <tr>
+            <th colspan="4"><a href='#ZH2'>二、模型定义</th>
+        </tr>
+        <tr>
+            <th colspan="4"><a href='#ZH3'>三、错误码定义</th>
+        </tr>
+    </thead>
+</table>
+
+
+<p><br>
+<br></p>
+
+<p><span id="0"/></p>
+
+<h1>零、返回值说明</h1>
+
+<ul>
+<li><h5>1. 接口调用正确</h5>
+
+<p>code一定为0<br/>
+data为每个接口对应的返回数据<br/>
+如果接口对应有分页功能，page为分页信息，否则为空</p></li>
+</ul>
+
+
+<pre><code>{
+    "code": 0
+    "data": {}
+    "page": {}
+}
+</code></pre>
+
+<ul>
+<li><h5>2. 接口调用错误</h5>
+
+<p>code为错误码<br/>
+desc为错误描述<br/>
+data为空</p></li>
+</ul>
+
+
+<pre><code>{
+    "code": -2000,
+    "data" {},
+    "desc": "密码不正确"
+}
+</code></pre>
+
+<h1>一、API</h1>
+
+<hr />
+
+<h1><span id="0"/> 0. 错误处理</h1>
+
+<ul>
+<li><h4>未登录</h4>
+
+<p>如果没有调用登录接口，会返回错误码</p></li>
+<li><h4>没权限</h4>
+
+<p>如果登录的账户没有调用某个接口的权限，在调用这个接口时会返回错误码</p></li>
+</ul>
+
+
+<hr />
+
+<h1><span id="1"/> 1. 登录</h1>
+
+<h2><span id="1.1"/> 1.1 登录</h2>
+
+<ul>
+<li><h4>URL:</h4>
+
+<p>/auth/login</p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>登录并获取cookie，<code>后面所有的接口都需要在请求时带入此cookie</code></p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> username </td>
+<td align="left"> str </td>
+<td align="left"> √ </td>
+<td align="left"> 邮箱 </td>
+</tr>
+<tr>
+<td align="left"> password </td>
+<td align="left"> str </td>
+<td align="left"> √ </td>
+<td align="left"> 密码 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> username </td>
+<td align="left"> str </td>
+<td align="left"> 用户名 </td>
+</tr>
+<tr>
+<td align="left"> company </td>
+<td align="left"> str </td>
+<td align="left"> 公司名称 </td>
+</tr>
+<tr>
+<td align="left"> contact </td>
+<td align="left"> str </td>
+<td align="left"> 联系人 </td>
+</tr>
+<tr>
+<td align="left"> email </td>
+<td align="left"> str </td>
+<td align="left"> 联系人邮箱 </td>
+</tr>
+<tr>
+<td align="left"> phone </td>
+<td align="left"> str </td>
+<td align="left"> 联系人电话 </td>
+</tr>
+<tr>
+<td align="left"> role_id </td>
+<td align="left"> int </td>
+<td align="left"> 账号类型, 1:root, 2:管理员, 3:普通用户</td>
+</tr>
+<tr>
+<td align="left"> password_reseted </td>
+<td align="left"> str </td>
+<td align="left"> 是否需要更改密码 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回JSON：</h4>
+
+<pre><code>{
+"code": 0,
+"data": {
+  "company": "",
+  "contact": "",
+  "email": "",
+  "id": 2,
+  "password_reseted": true,
+  "phone": "",
+  "role_id": 3,
+  "username": "ttt"
+},
+"page": {}
+}
+</code></pre></li>
+</ul>
+
+
+<h2><span id="1.2"/> 1.2 账号状态</h2>
+
+<ul>
+<li><h4>URL:</h4>
+
+<p>/auth/status</p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4></li>
+<li><h4>参数：</h4>
+
+<p>无</p></li>
+<li><h4>返回值说明：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> username </td>
+<td align="left"> str </td>
+<td align="left"> 用户名 </td>
+</tr>
+<tr>
+<td align="left"> company </td>
+<td align="left"> str </td>
+<td align="left"> 公司名称 </td>
+</tr>
+<tr>
+<td align="left"> contact </td>
+<td align="left"> str </td>
+<td align="left"> 联系人 </td>
+</tr>
+<tr>
+<td align="left"> email </td>
+<td align="left"> str </td>
+<td align="left"> 联系人邮箱 </td>
+</tr>
+<tr>
+<td align="left"> phone </td>
+<td align="left"> str </td>
+<td align="left"> 联系人电话 </td>
+</tr>
+<tr>
+<td align="left"> role_id </td>
+<td align="left"> int </td>
+<td align="left"> 账号类型, 1:root, 2:管理员, 3:普通用户</td>
+</tr>
+<tr>
+<td align="left"> password_reseted </td>
+<td align="left"> str </td>
+<td align="left"> 是否需要更改密码 </td>
+</tr>
+<tr>
+<td align="left"> limitation </td>
+<td align="left"> <a href="#limitation">limitation</a> </td>
+<td align="left"> 账号使用限制信息 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回JSON：</h4>
+
+<pre><code>{
+"code": 0,
+"data": {
+  "company": "",
+  "contact": "",
+  "email": "",
+  "id": 2,
+  "limitation": {
+    "called": 2,
+    "expiration": 1483113600,
+    "id": 2,
+    "quota": 997,
+    "user_id": 2
+  },
+  "password_reseted": true,
+  "phone": "",
+  "role_id": 3,
+  "username": "ttt"
+},
+"page": {}
+}
+</code></pre></li>
+</ul>
+
+
+<hr />
+
+<h1><span id="2"/> 2. 云识别</h1>
+
+<h2><span id="2.1"/> 2.1 1:1静态比对</h2>
+
+<ul>
+<li><h4>URL:</h4>
+
+<p>/api/compare</p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>对比两张照片中的人脸</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> image1 </td>
+<td align="left"> str </td>
+<td align="left"> √ </td>
+<td align="left"> 第一张图片 </td>
+</tr>
+<tr>
+<td align="left"> image2 </td>
+<td align="left"> str </td>
+<td align="left"> √ </td>
+<td align="left"> 第二张图片 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+<th> 备注 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> face1 </td>
+<td align="left"> <a href="#face">face</a> </td>
+<td align="left"> 第一张图中的人脸 </td>
+<td></td>
+</tr>
+<tr>
+<td align="left"> face2 </td>
+<td align="left"> <a href="#face">face</a> </td>
+<td align="left"> 第二张图中的人脸 </td>
+<td></td>
+</tr>
+<tr>
+<td align="left"> score </td>
+<td align="left"> float </td>
+<td align="left"> 两个人脸的相似度 </td>
+<td> 0到100 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回JSON：</h4>
+
+<pre><code>{
+"code": 0,
+"data": {
+  "face1": {
+    "attrs": {
+      "gaussian": 0.01135143,
+      "motion": 0.00899305,
+      "pitch": 0.13465951,
+      "yaw": 0.09036352
+    },
+    "quality": 0.9204634,
+    "rect": {
+      "height": 210,
+      "left": 125,
+      "top": 157,
+      "width": 210
+    }
+  },
+  "face2": {
+    "attrs": {
+      "gaussian": 0.01135143,
+      "motion": 0.00899305,
+      "pitch": 0.13465951,
+      "yaw": 0.09036352
+    },
+    "quality": 0.9204634,
+    "rect": {
+      "height": 210,
+      "left": 125,
+      "top": 157,
+      "width": 210
+    }
+  },
+  "score": 96.46025
+},
+"page": {}
+}
+</code></pre></li>
+</ul>
+
+
+<h1>二、<span id="ZH2"> 模型定义 </span></h1>
+
+<hr />
+
+<p><span id="limitation"/></p>
+
+<ul>
+<li><h5>limitation（账号使用限制信息）</h5>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+<th align="left"> 备注 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">called</td>
+<td align="left">int</td>
+<td align="left">接口调用次数</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">quota</td>
+<td align="left">int</td>
+<td align="left">剩余可调用次数</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">expiration</td>
+<td align="left">int</td>
+<td align="left">账号过期时间</td>
+<td align="left">unix时间戳</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<p><span id="quality_attr"/></p>
+
+<ul>
+<li><h5>quality_attr（人脸质量细节属性）</h5>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+<th align="left"> 备注 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">gaussian</td>
+<td align="left">float</td>
+<td align="left">高斯模糊</td>
+<td align="left">0到1</td>
+</tr>
+<tr>
+<td align="left">motion</td>
+<td align="left">float</td>
+<td align="left">动态模糊</td>
+<td align="left">0到1</td>
+</tr>
+<tr>
+<td align="left">pitch</td>
+<td align="left">float</td>
+<td align="left">上下倾斜幅度</td>
+<td align="left">0到1</td>
+</tr>
+<tr>
+<td align="left">yaw</td>
+<td align="left">float</td>
+<td align="left">左右倾斜幅度</td>
+<td align="left">0到1</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<p><span id="face_rect"/></p>
+
+<ul>
+<li><h5>quality_attr（人脸框位置）</h5>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+<th align="left"> 备注 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">height</td>
+<td align="left">float</td>
+<td align="left">人脸框的高度</td>
+<td align="left">像素</td>
+</tr>
+<tr>
+<td align="left">left</td>
+<td align="left">float</td>
+<td align="left">人脸框左侧在图片中的位置</td>
+<td align="left">像素</td>
+</tr>
+<tr>
+<td align="left">top</td>
+<td align="left">float</td>
+<td align="left">人脸框上方在图片中的位置</td>
+<td align="left">像素</td>
+</tr>
+<tr>
+<td align="left">width</td>
+<td align="left">float</td>
+<td align="left">人脸框的宽度</td>
+<td align="left">像素</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<p><span id="face"/></p>
+
+<ul>
+<li><h5>face（人脸的数据结构）</h5>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+<th align="left"> 备注 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">attrs</td>
+<td align="left"><a href="#quality_attr">quality_attr</a></td>
+<td align="left">人脸质量细节属性</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">quality</td>
+<td align="left">float</td>
+<td align="left">人脸图片的质量</td>
+<td align="left">0到1</td>
+</tr>
+<tr>
+<td align="left">rect</td>
+<td align="left"><a href="#face_rect">face_rect</a></td>
+<td align="left">人脸框的位置</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<p><br><br></p>
+
+<h2>三、<span id="ZH3">错误码定义</span></h2>
+
+<hr />
+
+<pre><code>NO_ERROR = (0, '没有错误')
+ERROR_UNKNOWN = (1000, '未知错误')
+ERROR_METHOD_ERROR = (1001, '请求方法不允许')
+ERROR_INVALID_PARAM = (1002, '参数错误')
+ERROR_DB_ERROR = (1003, '数据库错误')
+ERROR_NOT_ALLOWED = (1004, '操作不允许')
+ERROR_NETWORK_ERROR = (1005, '网络错误')
+ERROR_PASSWORD_NEED_CHANGE = (1006, '密码需要更改')
+ERROR_VERIFICATION_CODE = (1007, '二次验证错误')
+ERROR_NO_PERMISSION = (1008, '没有权限')
+
+# auth
+ERROR_PASSWORD_ERROR = (2000, '密码不正确')
+ERROR_CAPTCHAS_ERROR = (2001, '验证码不正确')
+ERROR_PASSWORD_INCONSISTENT = (2002, '两次密码不一致')
+ERROR_NEED_LOGIN = (2003, '请登录')
+ERROR_USER_NOT_EXIST = (2004, '用户不存在')
+ERROR_PASSWORD_ERROR_WAITING = (2005, '由于您连续输错3次密码,账号已经锁定,请等待10分钟再登陆')
+ERROR_PASSWORD_ERROR_TOO_MANY_TIMES = (2006, '密码错误次数过多,请10分钟后重试')
+ERROR_USER_NOT_LOGIN = (2007, '没有登录')
+
+#
+ERROR_API_QUOTA_NOT_ENOUGH = (3001, '调用次数不足')
+ERROR_API_EXPIRED = (3002, '使用时间到期')
+</code></pre>
+
+<p><br><br></p>
+</body>
+</html>
