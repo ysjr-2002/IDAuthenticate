@@ -21,15 +21,14 @@ namespace Common.Log
         public static void Info(object str, params string[] args)
         {
             var msg = string.Format("gate:" + DateTime.Now.ToString("HH:mm:ss") + " " + str, args);
-            //Trace.WriteLine(msg);
-            Console.WriteLine(msg);
+            Trace.WriteLine(msg);
             log.WriteInfomation(msg);
         }
 
         public static void LogJson(string str)
         {
             var msg = "gate:" + DateTime.Now.ToString("HH:mm:ss") + " " + str;
-            Console.WriteLine(msg);
+            Trace.WriteLine(msg);
             log.WriteInfomation(msg);
         }
 
