@@ -34,6 +34,7 @@ namespace CloudAPI
                 try
                 {
                     var wr = WebRequest.Create(url);
+                    wr.Timeout = 5000;
                     wr.ContentType = "application/x-www-form-urlencoded";
                     wr.Method = "POST";
                     wr.ContentLength = buffer.Length;
