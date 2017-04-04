@@ -117,20 +117,20 @@ namespace Main.ViewModel
         /// </summary>
         public async void Init()
         {
-            var taskOpenDeive = SFZReader.Instance.Open();
-            CompareResult = "连接证件阅读器...";
-            await taskOpenDeive;
+            //var taskOpenDeive = SFZReader.Instance.Open();
+            //CompareResult = "连接证件阅读器...";
+            //await taskOpenDeive;
 
-            SFZReader.Instance.SetReadIDCardCallback(OnReadCardCallback);
+            //SFZReader.Instance.SetReadIDCardCallback(OnReadCardCallback);
 
-            var taskLogin = MegviiCloud.Login();
-            await taskLogin;
+            //var taskLogin = MegviiCloud.Login();
+            //await taskLogin;
 
-            if (!taskLogin.Result)
-            {
-                CompareResult = "登录比对服务器失败";
-                return;
-            }
+            //if (!taskLogin.Result)
+            //{
+            //    CompareResult = "登录比对服务器失败";
+            //    return;
+            //}
 
             var connect = UsbCamera.Connect();
             if (!connect)
@@ -139,16 +139,19 @@ namespace Main.ViewModel
                 return;
             }
 
-            var taskStatus = MegviiCloud.GetAccountStatus();
-            await taskStatus;
+            //var taskStatus = MegviiCloud.GetAccountStatus();
+            //await taskStatus;
 
-            JsonStatus status = taskStatus.Result;
-            if (status.code == 0)
-            {
-                CompareResult = "剩余调用次数:" + status.data.limitation.quota;
-                EntraceWorkMode(1000);
-                UpdateDateTime();
-            }
+            InitVisibility = Visibility.Collapsed;
+            WorkVisibility = Visibility.Visible;
+
+            //JsonStatus status = taskStatus.Result;
+            //if (status.code == 0)
+            //{
+            //    CompareResult = "剩余调用次数:" + status.data.limitation.quota;
+            //    EntraceWorkMode(1000);
+            //    UpdateDateTime();
+            //}
         }
 
         private void UpdateDateTime()

@@ -38,6 +38,7 @@ namespace CloudAPI
                     wr.ContentType = "application/x-www-form-urlencoded";
                     wr.Method = "POST";
                     wr.ContentLength = buffer.Length;
+                    wr.Headers["user-agent"] = "Koala Admin";
 
                     var requeststream = wr.GetRequestStream();
                     requeststream.Write(buffer, 0, buffer.Length);
